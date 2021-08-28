@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiFilter;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
-use App\Controller\BankBySlug;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ORM\Entity()
@@ -19,25 +20,13 @@ use App\Controller\BankBySlug;
  *      "get",
  *      "patch",
  *      "delete",
- *      "put",
- *      "get_by_slug" = {
- *          "method" = "GET",
- *          "path" = "/bank/{slug}",
- *          "controller" = BankBySlug::class,
- *          "read"=false,
- *          "openapi_context" = {
- *            "parameters" = {
- *              {
- *                "name" = "slug",
- *                "in" = "path",
- *                "description" = "The slug of your bank",
- *                "type" = "string",
- *                "required" = true,
- *                "example"= "maib",
- *              },
- *         },
- *       },
- *      }
+ *      "put"
+ *     }
+ * )
+ * @ApiFilter(
+ *     SearchFilter::class,
+ *     properties={
+ *      "name": "start"
  *     }
  * )
  */

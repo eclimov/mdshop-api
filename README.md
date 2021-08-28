@@ -8,6 +8,11 @@ https://devanswers.co/how-to-upgrade-from-php-7-x-to-php-8-on-ubuntu-apache/
 
 ## REST API with Symfony 5
 https://digitalfortress.tech/tutorial/rest-api-with-symfony-and-api-platform/
+https://api-platform.com/docs/core/jwt/
+https://api-platform.com/docs/core/security/
 
 ## File Upload with API Platform and Symfony
 https://digitalfortress.tech/php/file-upload-with-api-platform-and-symfony/
+
+`bin/console make:fixtures` - make a new fixture class
+`bin/console security:hash-password`- hash a plain password
