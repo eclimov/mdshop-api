@@ -5,3 +5,11 @@
 authentication_token:
     path: /authentication_token
     methods: ['POST']
+
+api_token_refresh:
+    path: /token/refresh
+    methods: [POST]
+    # The following may be avoided, according to the documentation.
+    # But, if we remove it, '404 Unable to find the controller for path' error appears
+    # Leaving it for now. https://github.com/markitosgv/JWTRefreshTokenBundle/issues/255
+    controller: gesdinet.jwtrefreshtoken::refresh
