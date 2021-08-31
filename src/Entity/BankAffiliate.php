@@ -3,9 +3,6 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiSubresource;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -14,7 +11,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="banks")
+ * @ORM\Table(name="bank_affiliates")
  * @ORM\HasLifecycleCallbacks()
  * @ApiResource(
  *     normalizationContext={"groups" = {"read"}},
@@ -29,11 +26,11 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  * @ApiFilter(
  *     SearchFilter::class,
  *     properties={
- *      "name": "start"
+ *      "affiliateNumber": "start"
  *     }
  * )
  */
-class Bank
+class BankAffiliate
 {
     /**
      * @ORM\Id
@@ -44,36 +41,24 @@ class Bank
     private ?int $id = null;
 
     /**
+     * @var Bank
+     * @ORM\ManyToOne(targetEntity="App\Entity\Bank", inversedBy="affiliates", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
+     */
+    public Bank $bank;
+
+    /**
      * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank()
      * @Groups({"read", "write"})
      */
-    public string $name;
-
-    /**
-     * @var Collection
-     * @ORM\OneToMany(targetEntity="App\Entity\BankAffiliate", mappedBy="bank", cascade={"remove"})
-     */
-    #[ApiSubresource]
-    public Collection $affiliates;
-
-    /**
-     * @ORM\Column(length=255, unique=true)
-     * @Assert\NotBlank()
-     * @Groups({"read", "write"})
-     */
-    public string $slug;
+    public string $affiliateNumber;
 
     /**
      * @ORM\Column(type="datetime")
      * @Groups({"read"})
      */
     public ?\DateTime $created_at = null;
-
-    public function __construct()
-    {
-        $this->affiliates = new ArrayCollection();
-    }
 
     /**
      * @return int
@@ -96,6 +81,6 @@ class Bank
 
     public function __toString()
     {
-        return $this->name;
+        return $this->bank->name . ' - ' . $this->affiliateNumber;
     }
 }

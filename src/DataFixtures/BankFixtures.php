@@ -15,11 +15,12 @@ class BankFixtures extends Fixture
             ['name' => 'Victoriabank', 'slug' => 'vicb'],
         ];
 
-        foreach ($banksData as $bankData) {
+        foreach ($banksData as $i => $bankData) {
             $bank = new Bank();
             $bank->name = $bankData['name'];
             $bank->slug = $bankData['slug'];
             $manager->persist($bank);
+            $this->addReference('bank_' . $i, $bank);
         }
 
         $manager->flush();
