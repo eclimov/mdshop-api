@@ -3,6 +3,9 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiSubresource;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -55,10 +58,22 @@ class BankAffiliate
     public string $affiliateNumber;
 
     /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="App\Entity\Company", mappedBy="bankAffiliate")
+     */
+    #[ApiSubresource]
+    public Collection $companies;
+
+    /**
      * @ORM\Column(type="datetime")
      * @Groups({"read"})
      */
     public ?\DateTime $created_at = null;
+
+    public function __construct()
+    {
+        $this->companies = new ArrayCollection();
+    }
 
     /**
      * @return int

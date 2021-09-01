@@ -13,13 +13,16 @@ class BankAffiliateFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         $bankAffiliatesData = [
-            ['affiliateNumber' => 'AGRNMD2X710', 'bankReference' => 'bank_0']
+            [
+                'affiliateNumber' => 'AGRNMD2X710',
+                'bank' => $this->getReference('bank_0')
+            ]
         ];
 
         foreach ($bankAffiliatesData as $i => $bankAffiliateData) {
             $bankAffiliate = new BankAffiliate();
             $bankAffiliate->affiliateNumber = $bankAffiliateData['affiliateNumber'];
-            $bankAffiliate->bank = $this->getReference($bankAffiliateData['bankReference']);
+            $bankAffiliate->bank = $bankAffiliateData['bank'];
 
             $manager->persist($bankAffiliate);
             $this->addReference('bankAffiliate_' . $i, $bankAffiliate);

@@ -3,9 +3,6 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiSubresource;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -14,7 +11,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="banks")
+ * @ORM\Table(name="companies")
  * @ORM\HasLifecycleCallbacks()
  * @ApiResource(
  *     normalizationContext={"groups" = {"read"}},
@@ -29,11 +26,15 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  * @ApiFilter(
  *     SearchFilter::class,
  *     properties={
- *      "name": "start"
+ *      "name": "start",
+ *      "shortName": "start",
+ *      "iban": "start",
+ *      "fiscalCode": "start",
+ *      "vat": "start"
  *     }
  * )
  */
-class Bank
+class Company
 {
     /**
      * @ORM\Id
@@ -51,31 +52,45 @@ class Bank
     public string $name;
 
     /**
-     * @var Collection
-     * @ORM\OneToMany(targetEntity="App\Entity\BankAffiliate", mappedBy="bank", cascade={"remove"})
-     */
-    #[ApiSubresource (
-        maxDepth: 1
-    )]
-    public Collection $affiliates;
-
-    /**
-     * @ORM\Column(length=255, unique=true)
+     * @ORM\Column(type="string", length=255, unique=true)
      * @Assert\NotBlank()
      * @Groups({"read", "write"})
      */
-    public string $slug;
+    public string $shortName;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank()
+     * @Groups({"read", "write"})
+     */
+    public string $iban;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank()
+     * @Groups({"read", "write"})
+     */
+    public string $fiscalCode;
+
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     * @Assert\NotBlank()
+     * @Groups({"read", "write"})
+     */
+    public string $vat;
+
+    /**
+     * @var BankAffiliate
+     * @ORM\ManyToOne(targetEntity="App\Entity\BankAffiliate", inversedBy="companies")
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     */
+    public BankAffiliate $bankAffiliate;
 
     /**
      * @ORM\Column(type="datetime")
      * @Groups({"read"})
      */
     public ?\DateTime $created_at = null;
-
-    public function __construct()
-    {
-        $this->affiliates = new ArrayCollection();
-    }
 
     /**
      * @return int
