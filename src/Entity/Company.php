@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiSubresource;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiResource;
@@ -85,6 +87,15 @@ class Company
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      */
     public BankAffiliate $bankAffiliate;
+
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="App\Entity\CompanyAddress", mappedBy="company", cascade={"remove"})
+     */
+    #[ApiSubresource (
+        maxDepth: 1
+    )]
+    public Collection $addresses;
 
     /**
      * @ORM\Column(type="datetime")

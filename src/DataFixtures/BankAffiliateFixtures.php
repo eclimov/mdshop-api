@@ -16,6 +16,10 @@ class BankAffiliateFixtures extends Fixture implements DependentFixtureInterface
             [
                 'affiliateNumber' => 'AGRNMD2X710',
                 'bank' => $this->getReference('bank_0')
+            ],
+            [
+                'affiliateNumber' => 'VICBMD5X870',
+                'bank' => $this->getReference('bank_1')
             ]
         ];
 

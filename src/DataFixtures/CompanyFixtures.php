@@ -19,6 +19,14 @@ class CompanyFixtures extends Fixture implements DependentFixtureInterface
                 'shortName' => 'Artprezent',
                 'vat' => '3434343434343434',
                 'bankAffiliate' => $this->getReference('bankAffiliate_0')
+            ],
+            [
+                'name' => 'Moldtelecom S.R.L.',
+                'fiscalCode' => '67969769',
+                'iban' => 'IBAN_5656565',
+                'shortName' => 'Moldtelecom',
+                'vat' => '8989898989898989898',
+                'bankAffiliate' => $this->getReference('bankAffiliate_1')
             ]
         ];
 

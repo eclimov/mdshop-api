@@ -3,18 +3,16 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
-use ApiPlatform\Core\Annotation\ApiSubresource;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 
 /**
  * @ORM\Entity()
- * @ORM\Table(name="bank_affiliates")
+ * @ORM\Table(name="company_addresses")
  * @ORM\HasLifecycleCallbacks()
  * @ApiResource(
  *     normalizationContext={"groups" = {"read"}},
@@ -26,21 +24,10 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *      "put"
  *     }
  * )
- * @ApiFilter(
- *     SearchFilter::class,
- *     properties={
- *      "affiliateNumber": "start"
- *     }
- * )
  */
-class BankAffiliate
-/*
-POST
-{
-  "affiliateNumber": "qwerty",
-  "bank": "/banks/1"
-}
- */
+#[ApiFilter(SearchFilter::class, properties: ["address" => "partial"])]
+#[ApiFilter(BooleanFilter::class, properties: ["juridic"])]
+class CompanyAddress
 {
     /**
      * @ORM\Id
@@ -51,28 +38,25 @@ POST
     private ?int $id = null;
 
     /**
-     * @var Bank
-     * @ORM\ManyToOne(targetEntity="App\Entity\Bank", inversedBy="affiliates", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
-     * @Groups({"write"})
-     */
-    public Bank $bank;
-
-    /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255)
      * @Assert\NotBlank()
      * @Groups({"read", "write"})
      */
-    public string $affiliateNumber;
+    public string $address;
+    
+    /**
+     * @var Company
+     * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="addresses", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
+     * @Groups({"write"})
+     */
+    public Company $company;
 
     /**
-     * @var Collection
-     * @ORM\OneToMany(targetEntity="App\Entity\Company", mappedBy="bankAffiliate")
+     * @ORM\Column(name="is_juridic", type="boolean", nullable=false)
+     * @Groups({"read", "write"})
      */
-    #[ApiSubresource (
-        maxDepth: 1
-    )]
-    public Collection $companies;
+    public bool $juridic;
 
     /**
      * @ORM\Column(type="datetime")
@@ -82,7 +66,7 @@ POST
 
     public function __construct()
     {
-        $this->companies = new ArrayCollection();
+        $this->juridic = false;  // default value
     }
 
     /**
@@ -106,6 +90,6 @@ POST
 
     public function __toString()
     {
-        return $this->bank->name . ' - ' . $this->affiliateNumber;
+        return $this->company->name . ' - ' . $this->address;
     }
 }
