@@ -1,6 +1,16 @@
 api_platform:
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
+    formats:
+        json: [ 'application/json' ]
+        jsonld: [ 'application/ld+json' ]
+        jsonhal: [ 'application/hal+json' ]
+        jsonapi: [ 'application/vnd.api+json' ]
+        xml: [ 'application/xml', 'text/xml' ]
+        yaml: [ 'application/x-yaml' ]
+        csv: [ 'text/csv' ]
+        html: [ 'text/html' ]
+        myformat: [ 'application/vnd.myformat' ]
     patch_formats:
         json: ['application/merge-patch+json']
     swagger:

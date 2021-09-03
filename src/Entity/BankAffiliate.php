@@ -34,6 +34,13 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  * )
  */
 class BankAffiliate
+/*
+POST
+{
+  "affiliateNumber": "qwerty",
+  "bank": "/banks/1"
+}
+ */
 {
     /**
      * @ORM\Id
@@ -47,6 +54,7 @@ class BankAffiliate
      * @var Bank
      * @ORM\ManyToOne(targetEntity="App\Entity\Bank", inversedBy="affiliates", cascade={"persist"})
      * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
+     * @Groups({"write"})
      */
     public Bank $bank;
 
