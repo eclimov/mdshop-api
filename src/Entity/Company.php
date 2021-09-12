@@ -3,13 +3,13 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Serializer\Annotation\Groups;
-use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity()
@@ -96,6 +96,15 @@ class Company
         maxDepth: 1
     )]
     public Collection $addresses;
+
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="App\Entity\CompanyEmployee", mappedBy="company", cascade={"remove"})
+     */
+    #[ApiSubresource (
+        maxDepth: 1
+    )]
+    public Collection $employees;
 
     /**
      * @ORM\Column(type="datetime")
