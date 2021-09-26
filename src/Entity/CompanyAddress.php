@@ -11,7 +11,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\BooleanFilter;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="App\Repository\CompanyAddressRepository")
  * @ORM\Table(name="company_addresses")
  * @ORM\HasLifecycleCallbacks()
  * @ApiResource(

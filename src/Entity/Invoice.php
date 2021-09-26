@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Controller\CreateInvoice;
+use App\Controller\GenerateInvoiceDocument;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -19,7 +19,6 @@ use Symfony\Component\Validator\Constraints as Assert;
         'create_invoice' => [
             'method'          => 'post',
             'path'            => '/invoices',
-            'controller'      => CreateInvoice::class,
             'openapi_context' => [
                 'summary'     => 'Create an Invoice resource',
                 'requestBody' => [
@@ -61,7 +60,36 @@ use Symfony\Component\Validator\Constraints as Assert;
             ],
         ],
     ],
-    itemOperations: ['get'],
+    itemOperations: [
+        'get',
+        'generate_invoice_document' => [
+            'method' => 'post',
+            'status' => 200,
+            'path' => '/invoices/{id}/generate',
+            'requirements' => ['id' => '\d+'],
+            'read' => false, // https://api-platform.com/docs/core/controllers/#retrieving-the-entity
+            'deserialize' => false,
+            'validate' => false,
+            'controller' => GenerateInvoiceDocument::class,
+            'openapi_context' => [
+                'summary'     => 'Generate an Invoice document',
+                'parameters' => [
+                    [
+                        "name" => "id",
+                        "in" => "path",
+                        "description" => "Invoice id",
+                        "required" => true,
+                        "schema" => [
+                            "type" => "number"
+                        ]
+                    ]
+                ],
+                'requestBody' => [
+                    'content' => []
+                ]
+            ],
+        ]
+    ],
     denormalizationContext: ["groups" => ["write"]],
     normalizationContext: ["groups" => ["read"]]
 )]
