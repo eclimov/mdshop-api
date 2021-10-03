@@ -11,14 +11,13 @@ class BankFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $banksData = [
-            ['name' => 'Moldova Agroindbank', 'slug' => 'maib'],
-            ['name' => 'Victoriabank', 'slug' => 'vicb'],
+            ['name' => 'Moldova Agroindbank'],
+            ['name' => 'Victoriabank'],
         ];
 
         foreach ($banksData as $i => $bankData) {
             $bank = new Bank();
             $bank->name = $bankData['name'];
-            $bank->slug = $bankData['slug'];
             $manager->persist($bank);
             $this->addReference('bank_' . $i, $bank);
         }

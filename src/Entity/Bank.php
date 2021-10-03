@@ -60,13 +60,6 @@ class Bank
     public Collection $affiliates;
 
     /**
-     * @ORM\Column(length=255, unique=true)
-     * @Assert\NotBlank()
-     * @Groups({"read", "write"})
-     */
-    public string $slug;
-
-    /**
      * @ORM\Column(type="datetime")
      * @Groups({"read"})
      */
