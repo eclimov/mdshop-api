@@ -82,11 +82,12 @@ class Company
     public string $vat;
 
     /**
-     * @var BankAffiliate
+     * @var BankAffiliate|null
      * @ORM\ManyToOne(targetEntity="App\Entity\BankAffiliate", inversedBy="companies")
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     * @Groups({"write"})
      */
-    public BankAffiliate $bankAffiliate;
+    public ?BankAffiliate $bankAffiliate;
 
     /**
      * @var Collection
