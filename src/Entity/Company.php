@@ -85,8 +85,11 @@ class Company
      * @var BankAffiliate|null
      * @ORM\ManyToOne(targetEntity="App\Entity\BankAffiliate", inversedBy="companies")
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
-     * @Groups({"write"})
+     * @Groups({"read", "write"})
      */
+    #[ApiSubresource (
+        maxDepth: 1
+    )]
     public ?BankAffiliate $bankAffiliate;
 
     /**

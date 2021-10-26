@@ -69,9 +69,6 @@ POST
      * @var Collection
      * @ORM\OneToMany(targetEntity="App\Entity\Company", mappedBy="bankAffiliate")
      */
-    #[ApiSubresource (
-        maxDepth: 1
-    )]
     public Collection $companies;
 
     /**
