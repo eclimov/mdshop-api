@@ -35,3 +35,15 @@ services:
         arguments:
             $targetDirectory: '%uploads_directory%/invoice'
             $xlsProcessor: '@App\Service\XlsProcessor'
+
+    # https://symfonycasts.com/screencast/symfony3-security/encoding-user-password
+    app.doctrine.hash_password_listener:
+        class: App\Listeners\HashPasswordListener
+        autowire: true
+        tags:
+            - { name: doctrine.event_subscriber }
+
+    app.listener.authentication_success_response:
+        class: App\Listeners\AuthenticationSuccessListener
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccessResponse }

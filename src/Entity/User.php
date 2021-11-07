@@ -2,13 +2,26 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
+ * @ORM\HasLifecycleCallbacks()
+ * @ApiResource(
+ *     normalizationContext={"groups" = {"read"}},
+ *     denormalizationContext={"groups" = {"write"}},
+ *     itemOperations={
+ *      "get",
+ *      "patch",
+ *      "delete",
+ *      "put"
+ *     }
+ * )
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -16,11 +29,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
+     * @Groups({"read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Groups({"read", "write"})
      */
     private $email;
 
@@ -30,8 +45,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private $roles = [];
 
     /**
+     * @ORM\Column(type="datetime")
+     * @Groups({"read"})
+     */
+    public ?\DateTime $created_at = null;
+
+    /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Groups({"write"})
      */
     private $password;
 
@@ -122,5 +144,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * Prepersist gets triggered on Insert
+     * @ORM\PrePersist
+     */
+    public function updatedTimestamps(): void
+    {
+        if ($this->created_at == null) {
+            $this->created_at = new \DateTime('now');
+        }
     }
 }
