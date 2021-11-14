@@ -83,7 +83,7 @@ class Company
 
     /**
      * @var BankAffiliate|null
-     * @ORM\ManyToOne(targetEntity="App\Entity\BankAffiliate", inversedBy="companies")
+     * @ORM\ManyToOne(targetEntity="App\Entity\BankAffiliate", inversedBy="companies", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      * @Groups({"read", "write"})
      */
@@ -115,6 +115,15 @@ class Company
      * @Groups({"read"})
      */
     public ?\DateTime $created_at = null;
+
+    /**
+     * @var Collection
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="company", cascade={"remove"})
+     */
+    #[ApiSubresource (
+        maxDepth: 1
+    )]
+    public Collection $users;
 
     /**
      * @return int

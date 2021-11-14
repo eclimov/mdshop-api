@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use ApiPlatform\Core\Annotation\ApiSubresource;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -56,6 +57,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @Groups({"write"})
      */
     private $password;
+
+    /**
+     * @var Company|null
+     * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="users", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+     * @Groups({"read", "write"})
+     */
+    #[ApiSubresource (
+        maxDepth: 1
+    )]
+    public ?Company $company = null;
 
     public function getId(): ?int
     {
