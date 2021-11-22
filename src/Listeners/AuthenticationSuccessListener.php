@@ -19,6 +19,7 @@ class AuthenticationSuccessListener
             array_merge(
                 $event->getData(),
                 ['user_id' => $user->getId()],
+                ['company_id' => $company->getId()],
                 ['company_name' => $company->name],
             )
         );

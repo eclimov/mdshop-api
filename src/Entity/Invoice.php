@@ -141,7 +141,6 @@ class Invoice
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
      * @Groups({"read", "write"})
      */
     public string $attachedDocument;
@@ -180,7 +179,6 @@ class Invoice
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\NotBlank()
      * @Groups({"read", "write"})
      */
     public string $recipientName;
