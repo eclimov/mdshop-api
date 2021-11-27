@@ -75,7 +75,7 @@ class Company
     public string $fiscalCode;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=255, unique=false)
      * @Assert\NotBlank()
      * @Groups({"read", "write"})
      */

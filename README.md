@@ -19,6 +19,8 @@ https://digitalfortress.tech/php/file-upload-with-api-platform-and-symfony/
 `bin/console security:hash-password`- hash a plain password
 
 # bin/console doctrine:schema:drop --force && bin/console doctrine:schema:update --force && bin/console doctrine:fixtures:load -n
+### Load mysql data
+Within mysql container: `mysql> use mdshop; source /application/public/uploads/mysqlbackups/data.sql;`
 
 1. On VM:  
    `chmod -R 777 config/jwt/`
