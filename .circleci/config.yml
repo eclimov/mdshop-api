@@ -25,7 +25,7 @@ workflows:
   build-and-deploy:
     jobs:
       - deploy:
-          context: mdshop-api
+          context: mdshop
           filters:
             branches:
               only: master
