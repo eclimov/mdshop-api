@@ -1,7 +1,6 @@
 FROM phpdockerio/php80-fpm:latest
 
 WORKDIR "/application"
-
 COPY . /application
 
 # Install selected extensions and other stuff
@@ -11,6 +10,9 @@ RUN apt-get update \
     && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 ENV APP_ENV=prod
+RUN pwd
+RUN ls
+RUN cd ..
 RUN pwd
 RUN ls
 RUN composer install --no-dev --optimize-autoloader \
