@@ -14,6 +14,13 @@ jobs:
                 git reset --hard
                 git pull
                 docker-compose stop
+                export MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
+                export MYSQL_DATABASE=$MYSQL_DATABASE
+                export MYSQL_USER=$MYSQL_USER
+                export MYSQL_PASSWORD=$MYSQL_PASSWORD
+                export MYSQL_CONTAINER_NAME=$MYSQL_CONTAINER_NAME
+                export DATABASE_URL=mysql://$MYSQL_USER:$MYSQL_PASSWORD@$MYSQL_CONTAINER_NAME/$MYSQL_DATABASE
+                export JWT_PASSPHRASE=$JWT_PASSPHRASE
                 docker-compose up -d --build --force-recreate
                 docker container prune -f
                 docker image prune -f
