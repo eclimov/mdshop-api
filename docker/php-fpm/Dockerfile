@@ -8,5 +8,6 @@ RUN apt-get update \
 
 ENV APP_ENV=prod
 RUN pwd
+RUN ls
 RUN composer install --no-dev --optimize-autoloader \
     && bin/console cache:warmup
