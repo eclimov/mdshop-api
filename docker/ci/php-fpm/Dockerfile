@@ -17,5 +17,7 @@ ENV APP_ENV=prod
 # Waming-up cache + Providing write permissions
 # https://github.com/denderello/symfony-docker-example/issues/2
 RUN composer install --no-dev --optimize-autoloader \
+    && bin/console cache:clear \
+    && bin/console cache:warmup \
     && chmod -R 777 var/ \
     && chmod -R 777 public/uploads/

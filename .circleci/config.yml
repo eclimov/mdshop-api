@@ -41,7 +41,6 @@ jobs:
                 git clone https://github.com/eclimov/mdshop-api ; cd mdshop-api
                 git reset --hard
                 git pull
-                rm -rf var/cache/*
                 docker-compose -f docker-compose.prod.yml --env-file ./.env.local up -d webserver
                 docker-compose --env-file ./.env.local up -d mysql
                 docker-compose -f docker-compose.prod.yml pull php-fpm
