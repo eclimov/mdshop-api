@@ -89,7 +89,7 @@ use Symfony\Component\Validator\Constraints as Assert;
                 ]
             ],
         ],
-        'delete'
+//        'delete'
     ],
     denormalizationContext: ["groups" => ["write"]],
     normalizationContext: ["groups" => ["read"]]
