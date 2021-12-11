@@ -12,7 +12,7 @@ RUN apt-get update \
     && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 ## Using 'dummy' values to avoid errors in cases, when required env variables aren't provided
-#ENV APP_ENV=prod
+ENV APP_ENV=prod
 
 # Waming-up cache + Providing write permissions
 # https://github.com/denderello/symfony-docker-example/issues/2
