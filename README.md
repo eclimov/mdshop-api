@@ -27,4 +27,4 @@ Within mysql container: `mysql> use mdshop; source /application/public/uploads/m
 
 # Database Backups
 1. `crontab -e`
-2. `@weekly /usr/bin/sh /root/mdshop-api/db-backup.sh`
+2. `@weekly cd /root/mdshop-api && /usr/bin/sh db-backup.sh`
