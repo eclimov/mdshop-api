@@ -19,9 +19,9 @@ services:
         environment:
             - APP_ENV=${APP_ENV}
             - APP_SECRET=${APP_SECRET}
-#        working_dir: /application
-#        volumes:
-#            - .:/application
+        working_dir: /application
+        volumes:
+            - .:/application
 #
 #    webserver:
 #        build:
