@@ -17,7 +17,7 @@ services:
             - mdshop-net
 
     php-fpm:
-        image: eclimov/mdshop:latest
+        image: eclimov/mdshop-api:latest
         container_name: mdshop-api-php-fpm
         working_dir: /application
         volumes:
