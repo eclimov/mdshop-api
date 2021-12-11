@@ -25,6 +25,7 @@ services:
         #            - ./docker/php-fpm/php-ini-overrides.ini:/etc/php/8.0/fpm/conf.d/99-overrides.ini
         environment:
             - APP_ENV=prod
+            - APP_SECRET=${APP_SECRET}
             - DATABASE_URL=mysql://${MYSQL_USER}:${MYSQL_PASSWORD}@${MYSQL_CONTAINER_NAME}/${MYSQL_DATABASE}
             - JWT_PASSPHRASE=${JWT_PASSPHRASE}
         networks:
