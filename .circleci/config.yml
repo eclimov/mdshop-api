@@ -14,10 +14,13 @@ jobs:
               apk add --no-cache py-pip=9.0.1-r1
               pip install docker-compose==1.19.0
       - run:
-          name: Build containers and push application to Docker Hub
+          name: Build containers
           command: |
             docker-compose -f docker-compose.ci.yml up -d --build --force-recreate
             docker-compose -f docker-compose.ci.yml ps
+      - run:
+          name: Push application to Docker Hub
+          command: |
             docker commit mdshop-api-php-fpm $DOCKER_HUB_USER_ID/mdshop-api:$CIRCLE_SHA1
             docker commit mdshop-api-php-fpm $DOCKER_HUB_USER_ID/mdshop-api:latest
             docker images
@@ -38,10 +41,10 @@ jobs:
                 git clone https://github.com/eclimov/mdshop-api ; cd mdshop-api
                 git reset --hard
                 git pull
-                docker-compose -f docker-compose.prod.yml up -d webserver
-                docker-compose up -d mysql
+                docker-compose -f docker-compose.prod.yml up -d webserver --env-file ./.env.local
+                docker-compose up -d mysql --env-file ./.env.local
                 docker-compose -f docker-compose.prod.yml pull php-fpm
-                docker-compose -f docker-compose.prod.yml up -d --build --force-recreate php-fpm
+                docker-compose -f docker-compose.prod.yml up -d --build --force-recreate php-fpm --env-file ./.env.local
                 docker-compose exec -T php-fpm bin/console doctrine:migrations:migrate -n
                 docker container prune -f
                 docker image prune -f
