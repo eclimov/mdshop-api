@@ -3,7 +3,7 @@ FROM phpdockerio/php80-fpm:latest
 WORKDIR "/application"
 
 COPY . /application
-#COPY /docker/php-fpm/php-ini-overrides.ini /etc/php/8.0/fpm/conf.d/99-overrides.ini
+COPY /docker/php-fpm/php-ini-overrides.ini /etc/php/8.0/fpm/conf.d/99-overrides.ini
 
 # Install selected extensions and other stuff
 RUN apt-get update \

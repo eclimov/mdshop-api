@@ -1,16 +1,5 @@
 version: "3.5"
 services:
-#    mysql:
-#        image: mysql:8.0.26
-#        container_name: mdshop-api-mysql
-#        environment:
-#            - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
-#            - MYSQL_DATABASE=${MYSQL_DATABASE}
-#            - MYSQL_USER=${MYSQL_USER}
-#            - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-#        ports:
-#            - 3306:3306
-
     php-fpm:
         build:
             context: .
@@ -19,17 +8,3 @@ services:
         environment:
             - APP_ENV=${APP_ENV}
             - APP_SECRET=${APP_SECRET}
-#        working_dir: /application
-#        volumes:
-#            - .:/application
-#
-#    webserver:
-#        build:
-#            context: .
-#            dockerfile: docker/ci/nginx/Dockerfile
-#        container_name: mdshop-api-webserver
-#        depends_on:
-#            - mysql
-#            - php-fpm
-#        ports:
-#            - 81:80
