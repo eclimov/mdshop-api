@@ -27,4 +27,4 @@ Within mysql container: `mysql> use mdshop; source /application/public/uploads/m
 
 # Database Backups
 1. `crontab -e`
-2. `@weekly cd /root/mdshop-api/ && docker-compose exec mysql bash -c "mysqldump --no-create-info -u root -p'$(grep -oP '^MYSQL_ROOT_PASSWORD=\K.*' .env.local)' $(grep -oP '^MYSQL_DATABASE=\K.*' .env.local) > './public/uploads/mysqlbackups/$(date +%d-%m-%Y).sql'"`
+2. `@weekly /usr/bin/sh /root/mdshop-api/db-backup.sh`
