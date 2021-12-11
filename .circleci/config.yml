@@ -38,14 +38,6 @@ jobs:
                 git clone https://github.com/eclimov/mdshop-api ; cd mdshop-api
                 git reset --hard
                 git pull
-                export APP_ENV=prod
-                export MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
-                export MYSQL_DATABASE=$MYSQL_DATABASE
-                export MYSQL_USER=$MYSQL_USER
-                export MYSQL_PASSWORD=$MYSQL_PASSWORD
-                export MYSQL_CONTAINER_NAME=$MYSQL_CONTAINER_NAME
-                export DATABASE_URL=mysql://$MYSQL_USER:$MYSQL_PASSWORD@$MYSQL_CONTAINER_NAME/$MYSQL_DATABASE
-                export JWT_PASSPHRASE=$JWT_PASSPHRASE
                 docker-compose -f docker-compose.prod.yml up -d webserver
                 docker-compose up -d mysql
                 docker-compose -f docker-compose.prod.yml pull php-fpm
