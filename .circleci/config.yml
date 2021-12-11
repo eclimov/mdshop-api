@@ -1,5 +1,30 @@
 version: 2
 jobs:
+  build:
+    working_directory: ~/eclimov/mdshop-api
+    docker:
+      - image: docker:18.05.0-ce-git
+    steps:
+      - checkout
+      - setup_remote_docker
+
+      - run:
+            name: Install dependencies
+            command: |
+              apk add --no-cache py-pip=9.0.1-r1
+              pip install docker-compose==1.19.0
+      - run:
+          name: Build containers and push application to Docker Hub
+          command: |
+            docker-compose -f docker-compose.ci.yml up -d --build --force-recreate
+            docker-compose -f docker-compose.ci.yml ps
+            docker commit mdshop-api-php-fpm $DOCKER_HUB_USER_ID/mdshop-api:$CIRCLE_SHA1
+            docker commit mdshop-api-php-fpm $DOCKER_HUB_USER_ID/mdshop-api:latest
+            docker images
+            docker login -u $DOCKER_HUB_USER_ID -p $DOCKER_HUB_PWD
+            docker push $DOCKER_HUB_USER_ID/mdshop-api:$CIRCLE_SHA1
+            docker push $DOCKER_HUB_USER_ID/mdshop-api:latest
+
   deploy:
     working_directory: ~/eclimov/mdshop-api
     docker:
@@ -13,7 +38,6 @@ jobs:
                 git clone https://github.com/eclimov/mdshop-api ; cd mdshop-api
                 git reset --hard
                 git pull
-                docker-compose stop
                 export APP_ENV=prod
                 export MYSQL_ROOT_PASSWORD=$MYSQL_ROOT_PASSWORD
                 export MYSQL_DATABASE=$MYSQL_DATABASE
@@ -22,7 +46,10 @@ jobs:
                 export MYSQL_CONTAINER_NAME=$MYSQL_CONTAINER_NAME
                 export DATABASE_URL=mysql://$MYSQL_USER:$MYSQL_PASSWORD@$MYSQL_CONTAINER_NAME/$MYSQL_DATABASE
                 export JWT_PASSPHRASE=$JWT_PASSPHRASE
-                docker-compose up -d --build --force-recreate
+                docker-compose -f docker-compose.prod.yml up -d webserver
+                docker-compose up -d mysql
+                docker-compose -f docker-compose.prod.yml pull php-fpm
+                docker-compose -f docker-compose.prod.yml up -d --build --force-recreate php-fpm
                 docker-compose exec -T php-fpm bin/console doctrine:migrations:migrate -n
                 docker container prune -f
                 docker image prune -f
@@ -33,8 +60,11 @@ workflows:
   version: 2
   build-and-deploy:
     jobs:
+      - build
       - deploy:
           context: mdshop
+          requires:
+            - build
           filters:
             branches:
               only: master
