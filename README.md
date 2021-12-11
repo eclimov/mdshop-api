@@ -26,5 +26,4 @@ Within mysql container: `mysql> use mdshop; source /application/public/uploads/m
 # https://blog.khophi.co/deploy-to-digitalocean-from-circleci-overcome-permission-denied/
 
 # Database Backups
-1. `crontab -e`
-2. `@weekly cd /root/mdshop-api && /usr/bin/sh db-backup.sh`
+`cd /root/mdshop-api && docker-compose exec -T mysql bash -c "mysqldump --no-create-info -u root -p'$(grep -oP '^MYSQL_ROOT_PASSWORD=\K.*' .env.local)' $(grep -oP '^MYSQL_DATABASE=\K.*' .env.local) > './public/uploads/mysqlbackups/$(date +%d-%m-%Y).sql'"`

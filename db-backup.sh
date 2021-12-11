@@ -1,1 +1,0 @@
-docker-compose exec -T mysql bash -c \"mysqldump --no-create-info -u root -p\'\$\(grep -oP \'\^MYSQL_ROOT_PASSWORD=\\K.\*\' .env.local\)\' \$\(grep -oP \'\^MYSQL_DATABASE=\\K.\*\' .env.local\) \> \'./public/uploads/mysqlbackups/\$\(date +%d-%m-%Y\).sql\'\"
