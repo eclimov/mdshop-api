@@ -22,10 +22,6 @@ https://digitalfortress.tech/php/file-upload-with-api-platform-and-symfony/
 ### Load mysql data
 Within mysql container: `mysql> use mdshop; source /application/public/uploads/mysqlbackups/data.sql;`
 
-1. On VM:  
-   `chmod -R 777 config/jwt/`
-   `chmod -R 777 public/uploads/`
-
 # https://kags.me.ke/post/do-create-static-website/
 # https://blog.khophi.co/deploy-to-digitalocean-from-circleci-overcome-permission-denied/
 
