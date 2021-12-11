@@ -46,6 +46,8 @@ jobs:
                 docker-compose -f docker-compose.prod.yml pull php-fpm
                 docker-compose -f docker-compose.prod.yml --env-file ./.env.local up -d --build --force-recreate php-fpm
                 docker-compose exec -T php-fpm bin/console doctrine:migrations:migrate -n
+                docker-compose exec -T php-fpm bin/console cache:clear
+                docker-compose exec -T php-fpm bin/console cache:warmup
                 docker container prune -f
                 docker image prune -f
                 docker network prune -f
