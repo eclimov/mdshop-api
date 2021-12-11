@@ -25,3 +25,6 @@ Within mysql container: `mysql> use mdshop; source /application/public/uploads/m
 1. On VM:  
    `chmod -R 777 config/jwt/`
    `chmod -R 777 public/uploads/`
+
+# https://kags.me.ke/post/do-create-static-website/
+# https://blog.khophi.co/deploy-to-digitalocean-from-circleci-overcome-permission-denied/

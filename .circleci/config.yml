@@ -23,7 +23,6 @@ jobs:
                 export DATABASE_URL=mysql://$MYSQL_USER:$MYSQL_PASSWORD@$MYSQL_CONTAINER_NAME/$MYSQL_DATABASE
                 export JWT_PASSPHRASE=$JWT_PASSPHRASE
                 docker-compose up -d --build --force-recreate
-                docker-compose exec -T php-fpm composer install --no-dev
                 docker-compose exec -T php-fpm bin/console doctrine:migrations:migrate -n
                 docker container prune -f
                 docker image prune -f
