@@ -25,5 +25,9 @@ Within mysql container: `mysql> use mdshop; source /application/public/uploads/m
 # https://kags.me.ke/post/do-create-static-website/
 # https://blog.khophi.co/deploy-to-digitalocean-from-circleci-overcome-permission-denied/
 
-# Database Backups
+# Generate database Backups (on remote)
 `cd /root/mdshop-api && docker-compose exec -T mysql bash -c "mysqldump --no-create-info -u root -p'$(grep -oP '^MYSQL_ROOT_PASSWORD=\K.*' .env.local)' $(grep -oP '^MYSQL_DATABASE=\K.*' .env.local) > './public/uploads/mysqlbackups/$(date +%d-%m-%Y).sql'"`
+
+# Download database Backups (on local)
+From project's root
+`scp -r user@host:/root/mdshop-api/public/uploads/mysqlbackups ./public/uploads/`
