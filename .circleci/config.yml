@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/eclimov/mdshop-api
     docker:
-      - image: cimg/base:2022.09
+      - image: cimg/base:2022.09 # https://hub.docker.com/r/cimg/base
     steps:
       - checkout
       - setup_remote_docker
