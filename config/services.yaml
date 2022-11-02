@@ -36,6 +36,15 @@ services:
             $targetDirectory: '%uploads_directory%/invoice'
             $xlsProcessor: '@App\Service\XlsProcessor'
 
+    App\Service\FileManager:
+        arguments:
+            $uploadPath: '%uploads_directory%'
+
+    # https://symfony.com/bundles/DoctrineBundle/current/entity-listeners.html
+    App\Listeners\CompanyListener:
+        tags:
+            - { name: doctrine.orm.entity_listener, lazy: true }
+
     # https://symfonycasts.com/screencast/symfony3-security/encoding-user-password
     app.doctrine.hash_password_listener:
         class: App\Listeners\HashPasswordListener

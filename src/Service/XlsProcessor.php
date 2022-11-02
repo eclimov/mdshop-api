@@ -40,7 +40,7 @@ class XlsProcessor
     public function save(Spreadsheet $spreadsheet, String $path, String $fileName): void
     {
         $fileSystem = new Filesystem();
-        if (!$fileSystem->exists($path )) {
+        if (!$fileSystem->exists($path)) {
             $fileSystem->mkdir($path);  //  0777 permissions by default
         }
 

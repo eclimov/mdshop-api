@@ -13,6 +13,7 @@ api_platform:
         csv: [ 'text/csv' ]
         html: [ 'text/html' ]
         myformat: [ 'application/vnd.myformat' ]
+        multipart: ['multipart/form-data']
     exception_to_status:
         App\Exception\NotFoundException: 404
     patch_formats:

@@ -3,41 +3,58 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use ApiPlatform\Core\Annotation\ApiSubresource;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\EntityListeners;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Controller\CompanyLogoController;
 
 /**
  * @ORM\Entity()
+ * @EntityListeners({"App\Listeners\CompanyListener"})
  * @ORM\Table(name="companies")
  * @ORM\HasLifecycleCallbacks()
- * @ApiResource(
- *     normalizationContext={"groups" = {"read"}},
- *     denormalizationContext={"groups" = {"write"}},
- *     itemOperations={
- *      "get",
- *      "patch",
- *      "delete",
- *      "put"
- *     }
- * )
- * @ApiFilter(
- *     SearchFilter::class,
- *     properties={
- *      "name": "start",
- *      "shortName": "start",
- *      "iban": "start",
- *      "fiscalCode": "start",
- *      "vat": "start"
- *     }
- * )
  */
+// #[EntityListeners([CompanyListener::class])] // TODO: check why this declaration doesn't work
+#[ApiResource(
+    itemOperations: [
+        'get',
+        'patch',
+        'delete',
+        'put',
+        'add_logo' => [
+            'method' => 'POST',
+            'path' => '/companies/{id}/logo',
+            'requirements' => ['id' => '\d+'],
+            'controller' => CompanyLogoController::class,
+            'deserialize' => false
+        ],
+    ],
+    denormalizationContext: ["groups" => ["write"]],
+    normalizationContext: [
+        "skip_null_values" => false, // https://stackoverflow.com/questions/59314728/allowing-null-value-in-json-with-api-platform#59856013
+        "groups" => ["read"]
+    ]
+)]
+#[ApiFilter(
+    SearchFilter::class,
+    properties: [
+        'name' => 'start',
+        'shortName' => 'start',
+        'iban' => 'start',
+        'fiscalCode' => 'start',
+        'vat' => 'start'
+    ]
+)]
 class Company
 {
+    public const LOGO_PATH = "company/logos";
+
     /**
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
@@ -59,6 +76,20 @@ class Company
      * @Groups({"read", "write"})
      */
     public string $shortName;
+
+    /**
+     * @ORM\Column(name="logo", type="string", nullable=true)
+     * @Groups({"read"})
+     * @ApiProperty(
+     *   iri="https://schema.org/image",
+     *   attributes={
+     *     "openapi_context"={
+     *       "type"="string",
+     *     }
+     *   }
+     * )
+     */
+    public ?string $logo = null;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
