@@ -117,28 +117,28 @@ class Invoice
     public ?\DateTime $deliveryDate;
 
     /**
-     * @var Company
+     * @var Company|null
      * @ORM\ManyToOne(targetEntity="App\Entity\Company")
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      * @Groups({"read", "write"})
      */
-    public Company $carrier;
+    public ?Company $carrier = null;
 
     /**
-     * @var Company
+     * @var Company|null
      * @ORM\ManyToOne(targetEntity="App\Entity\Company")
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      * @Groups({"read", "write"})
      */
-    public Company $seller;
+    public ?Company $seller = null;
 
     /**
-     * @var Company
+     * @var Company|null
      * @ORM\ManyToOne(targetEntity="App\Entity\Company")
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      * @Groups({"read", "write"})
      */
-    public Company $buyer;
+    public ?Company $buyer = null;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -147,36 +147,36 @@ class Invoice
     public string $attachedDocument;
 
     /**
-     * @var CompanyAddress
+     * @var CompanyAddress|null
      * @ORM\ManyToOne(targetEntity="App\Entity\CompanyAddress")
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      * @Groups({"read", "write"})
      */
-    public CompanyAddress $loadingPoint;
+    public ?CompanyAddress $loadingPoint = null;
 
     /**
-     * @var CompanyAddress
+     * @var CompanyAddress|null
      * @ORM\ManyToOne(targetEntity="App\Entity\CompanyAddress")
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      * @Groups({"read", "write"})
      */
-    public CompanyAddress $unloadingPoint;
+    public ?CompanyAddress $unloadingPoint = null;
 
     /**
-     * @var CompanyEmployee
+     * @var CompanyEmployee|null
      * @ORM\ManyToOne(targetEntity="App\Entity\CompanyEmployee")
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      * @Groups({"read", "write"})
      */
-    public CompanyEmployee $approvedByEmployee;
+    public ?CompanyEmployee $approvedByEmployee = null;
 
     /**
-     * @var CompanyEmployee
+     * @var CompanyEmployee|null
      * @ORM\ManyToOne(targetEntity="App\Entity\CompanyEmployee")
      * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
      * @Groups({"read", "write"})
      */
-    public CompanyEmployee $processedByEmployee;
+    public ?CompanyEmployee $processedByEmployee = null;
 
     /**
      * @ORM\Column(type="string", length=255)

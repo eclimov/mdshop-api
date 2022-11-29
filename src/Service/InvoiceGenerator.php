@@ -48,15 +48,15 @@ class InvoiceGenerator
         $carrier = $invoice->carrier;
 
         $sheet->setCellValue(
-            'C2',
+            'K9',
             $invoice->orderDate->format('d.m.Y')
         );
         $sheet->setCellValue(
-            'D2',
+            'N9',
             $invoice->deliveryDate->format('d.m.Y')
         );
         $sheet->setCellValue(
-            'I4',
+            'AC10',
             $carrier->shortName
         );
 
@@ -67,7 +67,7 @@ class InvoiceGenerator
             ->getRepository(CompanyAddress::class)
             ->findJuridicByCompany($seller);
         $sheet->setCellValue(
-            'C5',
+            'H12',
             $seller->name
             . ' IBAN ' . $seller->iban
             . ' ' . $seller->bankAffiliate->affiliateNumber
@@ -81,49 +81,49 @@ class InvoiceGenerator
             ->getRepository(CompanyAddress::class)
             ->findJuridicByCompany($buyer);
         $sheet->setCellValue(
-            'C6',
+            'H14',
             $buyer->name
             . ' IBAN ' . $buyer->iban
             . ' ' . $buyer->bankAffiliate->affiliateNumber
             . ' ' . (count($buyerJuridicAddresses) > 0 ? ('a.j.' .$buyerJuridicAddresses[0]->address) : '')
         );
         $sheet->setCellValue(
-            'O4',
+            'AT10',
             $carrier->fiscalCode . ' / ' . $carrier->vat
         );
         $sheet->setCellValue(
-            'O5',
+            'AT12',
             $seller->fiscalCode . ' / ' . $seller->vat
         );
         $sheet->setCellValue(
-            'O6',
+            'AT14',
             $buyer->fiscalCode . ' / ' . $buyer->vat
         );
         $sheet->setCellValue(
-            'M7',
+            'AM16',
             $invoice->attachedDocument
         );
         $loadingPoint = $invoice->loadingPoint;
         $sheet->setCellValue(
-            'C9',
+            'G18',
             ($loadingPoint !== null) ? $loadingPoint->address : ''
         );
         $unloadingPoint = $invoice->unloadingPoint;
         $sheet->setCellValue(
-            'G9',
+            'AB18',
             ($unloadingPoint !== null) ? $unloadingPoint->address : ''
         );
         $approvedByEmployee = $invoice->approvedByEmployee;
         $sheet->setCellValue(
-            'C25',
+            'K72',
             trim($approvedByEmployee->position . ' ' . $approvedByEmployee->name)
         );
         $processedByEmployee = $invoice->processedByEmployee;
         $sheet->setCellValue(
-            'C27',
+            'Q75',
             trim($processedByEmployee->position . ' ' . $processedByEmployee->name)
         );
-        $sheet->setCellValue('K28', $invoice->recipientName);
+        $sheet->setCellValue('U85', $invoice->recipientName);
 
         $fileName = $invoice->getId() . '.xlsx';
         $this->getXlsProcessor()->save(
