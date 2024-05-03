@@ -30,4 +30,4 @@ Within mysql container: `mysql> use mdshop; source /application/public/uploads/m
 
 # Download database Backups (on local)
 From project's root
-`scp -r user@host:/root/mdshop-api/public/uploads/mysqlbackups ./public/uploads/` 
+`scp -r user@host:/root/mdshop-api/public/uploads/mysqlbackups ./public/uploads/`
