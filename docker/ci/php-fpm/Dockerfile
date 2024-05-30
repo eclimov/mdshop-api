@@ -14,7 +14,8 @@ RUN apt-get update \
 ## Using 'dummy' values to avoid errors in cases, when required env variables aren't provided
 ENV APP_ENV=prod
 
-ENV COMPOSER_ALLOW_SUPERUSER=1 # A fix for 'sh: symfony-cmd: command not found' error
+# A fix for 'sh: symfony-cmd: command not found' error
+ENV COMPOSER_ALLOW_SUPERUSER=1
 
 # Waming-up cache + Providing write permissions
 # https://github.com/denderello/symfony-docker-example/issues/2
