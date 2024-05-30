@@ -14,7 +14,7 @@ RUN apt-get update \
 ## Using 'dummy' values to avoid errors in cases, when required env variables aren't provided
 ENV APP_ENV=prod
 
-# A fix for 'sh: symfony-cmd: command not found' error
+# A workaround fix for 'sh: symfony-cmd: command not found' error: https://github.com/composer/composer/issues/11839#issuecomment-1934505185
 ENV COMPOSER_ALLOW_SUPERUSER=1
 
 # Waming-up cache + Providing write permissions
